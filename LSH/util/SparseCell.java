@@ -2,7 +2,7 @@ package util;
 
 public class SparseCell {
 
-	public int id;
+	public Integer id;
 
 	public double value;
 

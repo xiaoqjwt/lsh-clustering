@@ -60,7 +60,14 @@ public abstract class LSH {
 	 * @param sv
 	 * @return
 	 */
-	public abstract LSHResult hash(SparseVector sv);
+	public LSHResult hash(SparseVector sv) {
+		LSHResult ret = new LSHResult();
+		for (int i = 0; i < dimension; ++i) {
+			Object obj = hashAt(sv, i);
+			ret.put(obj);
+		}
+		return ret;
+	}
 
 	public abstract Object hashAt(SparseVector sv, int dim);
 }

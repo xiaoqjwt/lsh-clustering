@@ -34,11 +34,11 @@ public class MinHash extends LSH {
 
 	@Override
 	public void initialize() {
-		Random rand = new Random();
+		Random rand = new Random(System.currentTimeMillis());
 		for (int i = 0; i < dimension; ++i) {
 			while (true) {
-				long v1 = rand.nextLong();
-				long v2 = rand.nextLong();
+				int v1 = rand.nextInt();
+				int v2 = rand.nextInt();
 				Pair p = new Pair(v1, v2);
 				if (!parameter.contains(p)) {
 					parameter.add(p);
@@ -49,18 +49,9 @@ public class MinHash extends LSH {
 	}
 
 	@Override
-	public LSHResult hash(SparseVector sv) {
-		LSHResult ret = new LSHResult();
-		for (int i = 0; i < dimension; ++i) {
-			Object obj = hashAt(sv, i);
-			ret.put(obj);
-		}
-		return ret;
-	}
-
-	@Override
 	public Object hashAt(SparseVector sv, int dim) {
 		long ret = Long.MAX_VALUE;
+		long value;
 		Pair par = parameter.get(dim);
 		for (int i = 0; i < sv.vector.size(); ++i) {
 			if (bignumber) {
@@ -68,11 +59,19 @@ public class MinHash extends LSH {
 				mul.multiply(new BigInteger("" + sv.vector.get(i).id));
 				mul.add(new BigInteger("" + par.K2()));
 				mul.mod(new BigInteger("" + modL));
-				ret = mul.longValue();
+				mul.add(new BigInteger("" + modL));
+				mul.mod(new BigInteger("" + modL));
+				value = mul.longValue();
 			} else {
-				ret = (sv.vector.get(i).id * (Long) par.K1() + (Long) par.K2())
+				value = (((sv.vector.get(i).id).longValue()
+						* (Integer) par.K1() + (Integer) par.K2())
+						% modL + modL)
 						% modL;
 			}
+			if (value < ret) {
+				ret = value;
+			}
+
 		}
 		return ret;
 	}

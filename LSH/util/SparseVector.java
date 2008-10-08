@@ -4,13 +4,15 @@ import java.io.*;
 import java.util.Vector;
 
 public class SparseVector {
-	public Vector<SparseCell> vector;
+	public Vector<SparseCell> vector = new Vector<SparseCell>();
 
 	public int index;
 
-	public String deserialize() {
+	public double label;
+
+	public String serialize() {
 		String ret = "";
-		ret += index;
+		ret += index + " " + label;
 		for (int i = 0; i < vector.size(); ++i) {
 			int id = vector.get(i).id;
 			double value = vector.get(i).value;
@@ -19,12 +21,16 @@ public class SparseVector {
 		return ret;
 	}
 
-	public boolean serialize(String line) {
+	public boolean deserialize(String line) {
 		boolean ret = true;
 		int li = 0, ri = 0;
 		for (; ri < line.length() && line.charAt(ri) != ' '; ++ri)
 			;
 		index = Integer.valueOf(line.substring(li, ri));
+
+		for (li = ++ri; ri < line.length() && line.charAt(ri) != ' '; ++ri)
+			;
+		label = Double.valueOf(line.substring(li, ri));
 
 		for (; ri < line.length();) {
 			int id;
