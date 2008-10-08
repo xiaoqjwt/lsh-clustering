@@ -1,5 +1,6 @@
 package util;
 
+import java.io.*;
 import java.util.Vector;
 
 public class SparseVector {
@@ -20,6 +21,25 @@ public class SparseVector {
 
 	public boolean serialize(String line) {
 		boolean ret = true;
+		int li = 0, ri = 0;
+		for (; ri < line.length() && line.charAt(ri) != ' '; ++ri)
+			;
+		index = Integer.valueOf(line.substring(li, ri));
+
+		for (; ri < line.length();) {
+			int id;
+			double value;
+			for (li = ++ri; ri < line.length() && line.charAt(ri) != ' '; ++ri)
+				;
+			id = Integer.valueOf(line.substring(li, ri));
+
+			for (li = ++ri; ri < line.length() && line.charAt(ri) != ' '; ++ri)
+				;
+			value = Double.valueOf(line.substring(li, ri));
+
+			SparseCell sc = new SparseCell(id, value);
+			vector.add(sc);
+		}
 		return ret;
 	}
 }
