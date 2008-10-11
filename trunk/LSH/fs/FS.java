@@ -1,5 +1,9 @@
 package fs;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Vector;
 
 import util.SparseVector;
@@ -29,4 +33,21 @@ public abstract class FS {
 	}
 
 	public abstract void selection();
+
+	public void serialize(String file) {
+		try {
+			OutputStream os = new FileOutputStream(file);
+			PrintStream ps = new PrintStream(os);
+			for (int i = 0; i < dimension; ++i) {
+				if (i != 0) {
+					ps.println();
+				}
+				ps.print(featureValue.get(i));
+			}
+			os.close();
+		} catch (Exception e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+		}
+	}
 }

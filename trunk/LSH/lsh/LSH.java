@@ -8,6 +8,10 @@ public abstract class LSH {
 
 	public int dimension;
 
+	public String parameterFile;
+
+	public boolean loadParameter = false;
+
 	/**
 	 * Set the confiruation
 	 * 
@@ -48,11 +52,21 @@ public abstract class LSH {
 		if (lvalue.equals("dimension")) {
 			dimension = Integer.valueOf(rvalue);
 			return true;
+		} else if (lvalue.equals("loadParameter")) {
+			loadParameter = rvalue.equals("on");
+			return true;
+		} else if (lvalue.equals("parameterFile")) {
+			parameterFile = rvalue;
+			return true;
 		}
 		return ret;
 	}
 
 	public abstract void initialize();
+
+	public abstract void serialize(String file);
+
+	public abstract void deserialize(String file);
 
 	/**
 	 * Main Hash

@@ -35,7 +35,7 @@ public final class Main {
 
 		loader.GenLSH(lsh);
 
-		FS fs = new IGFS(loader.dataLSH, loader.data, loader.maxDimension);
+		FS fs = new IGFS(loader.dataLSH, loader.data, lsh.dimension);
 		fs.selection();
 
 		Pair[] sp = new Pair[fs.featureValue.size()];

@@ -1,7 +1,14 @@
 package lsh;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Vector;
 
 import util.Pair;
@@ -34,6 +41,15 @@ public class MinHash extends LSH {
 
 	@Override
 	public void initialize() {
+		if (this.loadParameter) {
+			deserialize(parameterFile);
+		} else {
+			randomGenParameter();
+			serialize(parameterFile);
+		}
+	}
+
+	private void randomGenParameter() {
 		Random rand = new Random(System.currentTimeMillis());
 		for (int i = 0; i < dimension; ++i) {
 			while (true) {
@@ -74,5 +90,40 @@ public class MinHash extends LSH {
 
 		}
 		return ret;
+	}
+
+	@Override
+	public void deserialize(String file) {
+		try {
+			InputStream is = new FileInputStream(file);
+			Scanner scanner = new Scanner(is);
+			for (int i = 0; i < dimension; ++i) {
+				long k1 = scanner.nextLong();
+				long k2 = scanner.nextLong();
+				Pair p = new Pair(k1, k2);
+				parameter.add(p);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void serialize(String file) {
+		try {
+			OutputStream os = new FileOutputStream(file);
+			PrintStream ps = new PrintStream(os);
+			for (int i = 0; i < parameter.size(); ++i) {
+				if (0 != i) {
+					ps.println();
+				}
+				ps.print(parameter.get(i).K1() + " " + parameter.get(i).K2());
+			}
+			os.close();
+		} catch (Exception e) {
+			// TODO 自动生成 catch 块
+			e.printStackTrace();
+		}
 	}
 }
