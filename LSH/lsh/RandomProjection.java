@@ -37,4 +37,16 @@ public class RandomProjection extends LSH {
 			parameter.add(hp);
 		}
 	}
+
+	@Override
+	public void deserialize(String file) {
+		// TODO 自动生成方法存根
+		
+	}
+
+	@Override
+	public void serialize(String file) {
+		// TODO 自动生成方法存根
+		
+	}
 }

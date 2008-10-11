@@ -53,13 +53,18 @@ public class SparseVector {
 	}
 
 	public boolean deserialize(String line, double _label) {
+
+		label = _label;
+
+		return deserializeWithoutLabel(line);
+	}
+
+	private boolean deserializeWithoutLabel(String line) {
 		boolean ret = true;
 		int li = 0, ri = 0;
 		for (; ri < line.length() && line.charAt(ri) != ' '; ++ri)
 			;
 		index = Integer.valueOf(line.substring(li, ri));
-
-		label = _label;
 
 		for (; ri < line.length();) {
 			int id;
