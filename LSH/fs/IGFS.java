@@ -20,6 +20,7 @@ public class IGFS extends FS {
 			int _dimension) {
 		super(_input, _data, _dimension);
 		allCount = _input.size();
+		featureValue = new Vector<Double>();
 	}
 
 	@Override
@@ -33,13 +34,15 @@ public class IGFS extends FS {
 				double label = data.get(i).label;
 				if (!valueCount.containsKey(value)) {
 					valueCount.put(value, 0);
+
 					HashMap<Double, Integer> labelCount = new HashMap<Double, Integer>();
-					valueCount.put(label, 0);
+					labelCount.put(label, 0);
 					valueLabelCount.put(value, labelCount);
 				}
 				valueCount.put(value, valueCount.get(value) + 1);
-				valueLabelCount.get(value).put(label,
-						valueLabelCount.get(value).get(label) + 1);
+				int c = valueLabelCount.get(value).get(label) + 1;
+				valueLabelCount.get(value).put(label, c);
+
 			}
 
 			for (Object value : valueCount.keySet()) {
