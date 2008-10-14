@@ -38,7 +38,12 @@ public class IGFS extends FS {
 					HashMap<Double, Integer> labelCount = new HashMap<Double, Integer>();
 					labelCount.put(label, 0);
 					valueLabelCount.put(value, labelCount);
+				} else {
+					if (!valueLabelCount.get(value).containsKey(label)) {
+						valueLabelCount.get(value).put(label, 0);
+					}
 				}
+
 				valueCount.put(value, valueCount.get(value) + 1);
 				int c = valueLabelCount.get(value).get(label) + 1;
 				valueLabelCount.get(value).put(label, c);

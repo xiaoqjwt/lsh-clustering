@@ -19,7 +19,7 @@ import lsh.MinHash;
 
 public final class Main {
 
-	static int selectNumber = 3;
+	static int selectNumber = 1;
 
 	/**
 	 * @param args
@@ -27,7 +27,8 @@ public final class Main {
 	public static void main(String[] args) {
 
 		DataLoader loader = new DataLoader();
-		loader.load("test_data.txt");
+		//loader.load("test_data.txt");
+		loader.load("test1.data", "test1.data.label");
 
 		LSH lsh = new MinHash();
 		lsh.conf("test.ini");
