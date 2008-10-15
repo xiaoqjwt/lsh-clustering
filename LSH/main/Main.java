@@ -16,10 +16,11 @@ import fs.IGFS;
 import lsh.LSH;
 import lsh.LSHResult;
 import lsh.MinHash;
+import lsh.RandomPermutationMinhash;
 
 public final class Main {
 
-	static int selectNumber = 1;
+	static int selectNumber = 2;
 
 	/**
 	 * @param args
@@ -27,10 +28,11 @@ public final class Main {
 	public static void main(String[] args) {
 
 		DataLoader loader = new DataLoader();
-		//loader.load("test_data.txt");
+		// loader.load("test_data.txt");
 		loader.load("test1.data", "test1.data.label");
 
-		LSH lsh = new MinHash();
+		// LSH lsh = new MinHash();
+		LSH lsh = new RandomPermutationMinhash();
 		lsh.conf("test.ini");
 		lsh.initialize();
 
@@ -45,7 +47,7 @@ public final class Main {
 		}
 		Arrays.sort(sp, new Comparator<Pair>() {
 			public int compare(Pair arg0, Pair arg1) {
-				double v = ((Double) arg0.K2() - (Double) arg1.K2());
+				double v = -((Double) arg0.K2() - (Double) arg1.K2());
 				return (0 == v) ? 0 : ((v > 0) ? 1 : -1);
 			}
 		});
